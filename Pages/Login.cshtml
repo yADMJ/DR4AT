@@ -1,0 +1,20 @@
+﻿@page
+@model DR4AT.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post">
+    <div>
+        <label>Usuário(admin):</label>
+        <input asp-for="Username" />
+    </div>
+    <div>
+        <label>Senha(1234):</label>
+        <input asp-for="Password" type="password" />
+    </div>
+    <button type="submit">Entrar</button>
+    <p style="color:red">@Model.ErrorMessage</p>
+</form>

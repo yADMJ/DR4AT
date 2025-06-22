@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TurismoApp.Data;
 using TurismoApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DR4AT.Pages.PacotesTuristicos
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly TurismoApp.Data.TurismoAppContext _context;
