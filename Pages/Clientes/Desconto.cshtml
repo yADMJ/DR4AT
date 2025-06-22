@@ -1,0 +1,22 @@
+﻿@page
+@model TurismoApp.Pages.DescontoModel
+@{
+    ViewData["Title"] = "Cálculo de Desconto";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="PrecoOriginal">Informe o valor da diária (R$):</label>
+        <input asp-for="PrecoOriginal" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Calcular Desconto</button>
+</form>
+
+@if (Model.PrecoComDesconto > 0)
+{
+    <div class="alert alert-success mt-3">
+        Valor com desconto: <strong>R$ @Model.PrecoComDesconto.ToString("F2")</strong>
+    </div>
+}

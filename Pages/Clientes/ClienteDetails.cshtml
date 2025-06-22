@@ -1,0 +1,24 @@
+﻿@page "{id:int}"
+@model TurismoApp.Pages.Clientes.ClienteDetailsModel
+
+<h2>Detalhes do Cliente</h2>
+
+@if (Model.Cliente == null)
+{
+    <p>Cliente não encontrado.</p>
+}
+else
+{
+    <dl>
+        <dt>ID</dt>
+        <dd>@Model.Cliente.Id</dd>
+
+        <dt>Nome</dt>
+        <dd>@Model.Cliente.Nome</dd>
+
+        <dt>Email</dt>
+        <dd>@Model.Cliente.Email</dd>
+    </dl>
+}
+
+<a asp-page="/Clientes/Index">Voltar</a>

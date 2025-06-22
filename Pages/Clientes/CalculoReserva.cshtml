@@ -1,0 +1,25 @@
+﻿@page
+@model TurismoApp.Pages.CalculoReservaModel
+@{
+    ViewData["Title"] = "Cálculo de Reserva";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div>
+        <label for="NumeroDiarias">Número de Diárias:</label>
+        <input type="number" asp-for="NumeroDiarias" min="1" required />
+    </div>
+    <div>
+        <label for="ValorDiaria">Valor da Diária (em reais):</label>
+        <input type="number" asp-for="ValorDiaria" min="1" required />
+    </div>
+    <button type="submit">Calcular</button>
+</form>
+
+@if (Model.ResultadoCalculado)
+{
+    <h3>Resultado:</h3>
+    <p>Valor total da reserva: <strong>R$ @Model.TotalReserva.ToString("F2")</strong></p>
+}

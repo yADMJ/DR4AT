@@ -1,0 +1,15 @@
+﻿@page
+@model TurismoApp.Pages.LogReservaModel
+@{
+    ViewData["Title"] = "Registro de Log de Reserva";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Operação simulada registrada: <strong>@Model.Mensagem</strong></p>
+<p>Os logs foram enviados para:</p>
+<ul>
+    <li>Console</li>
+    <li>Arquivo (logs.txt)</li>
+    <li>Memória (lista interna)</li>
+</ul>
