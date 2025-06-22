@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using TurismoApp.Data;
 using TurismoApp.Models;
 
-namespace DR4AT.Pages
+namespace DR4AT.Pages.Clientes
 {
     public class CreateModel : PageModel
     {

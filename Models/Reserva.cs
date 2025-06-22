@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TurismoApp.Models
@@ -7,14 +8,20 @@ namespace TurismoApp.Models
     {
         public int Id { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public DateTime DataReserva { get; set; } = DateTime.Now;
 
         [ForeignKey("Cliente")]
         public int ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
+
+        [ValidateNever]
+        public Cliente? Cliente { get; set; }
 
         [ForeignKey("PacoteTuristico")]
         public int PacoteTuristicoId { get; set; }
-        public PacoteTuristico PacoteTuristico { get; set; }
+
+        [ValidateNever]
+        public PacoteTuristico? PacoteTuristico { get; set; }
     }
 }

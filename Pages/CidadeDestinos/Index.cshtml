@@ -1,0 +1,37 @@
+﻿@page
+@model DR4AT.Pages.CidadeDestinos.IndexModel
+
+@{
+    ViewData["Title"] = "Cidades de Destino";
+}
+
+<h1>Cidades de Destino</h1>
+
+<p>
+    <a asp-page="Create">Criar Nova Cidade</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CidadeDestino[0].Nome)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CidadeDestino)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Detalhes</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

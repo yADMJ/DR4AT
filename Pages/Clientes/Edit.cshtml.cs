@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using TurismoApp.Data;
 using TurismoApp.Models;
 
-namespace DR4AT.Pages
+namespace DR4AT.Pages.Clientes
 {
     public class EditModel : PageModel
     {

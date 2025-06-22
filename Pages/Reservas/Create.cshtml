@@ -1,0 +1,36 @@
+﻿@page
+@model DR4AT.Pages.Reservas.CreateModel
+
+<h1>Criar Reserva</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Reserva.DataReserva"></label>
+        <input asp-for="Reserva.DataReserva" type="date" class="form-control" />
+        <span asp-validation-for="Reserva.DataReserva" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Reserva.ClienteId"></label>
+        <select asp-for="Reserva.ClienteId" asp-items="Model.ClientesSelectList" class="form-control"></select>
+        <span asp-validation-for="Reserva.ClienteId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Reserva.PacoteTuristicoId"></label>
+        <select asp-for="Reserva.PacoteTuristicoId" asp-items="Model.PacotesSelectList" class="form-control"></select>
+        <span asp-validation-for="Reserva.PacoteTuristicoId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Criar</button>
+</form>
+
+<a asp-page="./Index">Voltar para lista</a>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

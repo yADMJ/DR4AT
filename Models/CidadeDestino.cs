@@ -9,6 +9,9 @@ namespace TurismoApp.Models
         [Required, MinLength(3)]
         public string Nome { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public ICollection<PacoteTuristico> Pacotes { get; set; } = new List<PacoteTuristico>();
     }
+
 }

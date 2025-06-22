@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TurismoApp.Data;
 using TurismoApp.Models;
 
-namespace DR4AT.Pages
+namespace DR4AT.Pages.PacotesTuristicos
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace DR4AT.Pages
             _context = context;
         }
 
-        public Cliente Cliente { get; set; } = default!;
+        public PacoteTuristico PacoteTuristico { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,14 +28,14 @@ namespace DR4AT.Pages
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
+            var pacoteturistico = await _context.PacoteTuristicos.FirstOrDefaultAsync(m => m.Id == id);
+            if (pacoteturistico == null)
             {
                 return NotFound();
             }
             else
             {
-                Cliente = cliente;
+                PacoteTuristico = pacoteturistico;
             }
             return Page();
         }

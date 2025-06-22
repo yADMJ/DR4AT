@@ -12,6 +12,8 @@ namespace TurismoApp.Models
         public int CapacidadeMaxima { get; set; }
         public decimal Preco { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public List<Reserva> Reservas { get; set; } = new List<Reserva>();
 
 

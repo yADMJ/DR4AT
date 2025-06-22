@@ -1,5 +1,5 @@
 ﻿@page
-@model DR4AT.Pages.CreateModel
+@model DR4AT.Pages.CidadeDestinos.CreateModel
 
 @{
     ViewData["Title"] = "Create";
@@ -7,7 +7,7 @@
 
 <h1>Create</h1>
 
-<h4>Cliente</h4>
+<h4>CidadeDestino</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,14 +15,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <span class="text-danger">*</span>
-                <label asp-for="Cliente.Nome" class="control-label"></label>
-                <input asp-for="Cliente.Nome" class="form-control" />
-                <span asp-validation-for="Cliente.Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cliente.Email" class="control-label"></label>
-                <input asp-for="Cliente.Email" class="form-control" />
-                <span asp-validation-for="Cliente.Email" class="text-danger"></span>
+                <label asp-for="CidadeDestino.Nome" class="control-label"></label>
+                <input asp-for="CidadeDestino.Nome" class="form-control" />
+                <span asp-validation-for="CidadeDestino.Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

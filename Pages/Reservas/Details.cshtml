@@ -1,0 +1,29 @@
+﻿@page
+@model DR4AT.Pages.Reservas.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalhes da Reserva";
+}
+
+<h1>Detalhes da Reserva</h1>
+
+<div>
+    <h4>Reserva</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Data da Reserva</dt>
+        <dd class="col-sm-10">@Model.Reserva.DataReserva.ToString("dd/MM/yyyy")</dd>
+
+        <dt class="col-sm-2">Cliente</dt>
+        <dd class="col-sm-10">@Model.Reserva.Cliente?.Nome </dd>
+
+        <dt class="col-sm-2">Pacote Turístico</dt>
+        <dd class="col-sm-10">@Model.Reserva.PacoteTuristico?.Titulo </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Reserva.Id" class="btn btn-primary">Editar</a>
+    |
+    <a asp-page="./Index" class="btn btn-secondary">Voltar para Lista</a>
+</div>

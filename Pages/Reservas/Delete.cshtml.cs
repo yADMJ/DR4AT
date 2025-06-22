@@ -8,19 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using TurismoApp.Data;
 using TurismoApp.Models;
 
-namespace DR4AT.Pages
+namespace DR4AT.Pages.Reservas
 {
     public class DeleteModel : PageModel
     {
-        private readonly TurismoApp.Data.TurismoAppContext _context;
+        private readonly TurismoAppContext _context;
 
-        public DeleteModel(TurismoApp.Data.TurismoAppContext context)
+        public DeleteModel(TurismoAppContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Cliente Cliente { get; set; } = default!;
+        public Reserva Reserva { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,31 +29,28 @@ namespace DR4AT.Pages
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.Id == id);
+            var reserva = await _context.Reservas
+                .Include(r => r.Cliente)
+                .Include(r => r.PacoteTuristico)
+                .FirstOrDefaultAsync(m => m.Id == id && !m.IsDeleted);
 
-            if (cliente == null)
+            if (reserva == null)
             {
                 return NotFound();
             }
-            else
-            {
-                Cliente = cliente;
-            }
+
+            Reserva = reserva;
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var reserva = await _context.Reservas.FindAsync(Reserva.Id);
 
-            var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente != null)
+            if (reserva != null)
             {
-                Cliente = cliente;
-                _context.Clientes.Remove(Cliente);
+                reserva.IsDeleted = true;
+                _context.Reservas.Update(reserva);
                 await _context.SaveChangesAsync();
             }
 

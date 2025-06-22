@@ -7,36 +7,21 @@
 
 <h1>Index</h1>
 
+<h2>Teste para o basico</h2>
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="ViewNotes">Ver Anotações</a><br />
+    <a asp-page="LogReserva">LogReserva</a><br />
+    <a asp-page="CalculoReserva">CalculoReserva</a><br />
+    <a asp-page="TesteCapacidade">TesteCapacidade</a><br />
+    <a asp-page="Desconto">Desconto</a><br />
+    <a asp-page="CreateCidadeDestino">CreateCidadeDestino</a><br />
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Cliente[0].Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cliente[0].Email)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Cliente) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<h2>Teste para os bancos de dados e afins</h2>
+<p>
+    <a asp-page="/CidadeDestinos/Index">Aba das cidades Destino</a><br />
+    <a asp-page="/Clientes/Index">Aba Clientes</a><br />
+    <a asp-page="/PacotesTuristicos/Index">Aba Pacoste Turisticos</a><br />
+    <a asp-page="/Reservas/Index">Aba Reservas</a><br />
+</p>
+
