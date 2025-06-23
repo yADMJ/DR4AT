@@ -17,7 +17,9 @@ namespace DR4AT.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false)
+                    Nome = table.Column<string>(type: "TEXT", nullable: false),
+                    Pais = table.Column<string>(type: "TEXT", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +33,8 @@ namespace DR4AT.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false)
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,11 +50,36 @@ namespace DR4AT.Migrations
                     Titulo = table.Column<string>(type: "TEXT", nullable: false),
                     DataInicio = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CapacidadeMaxima = table.Column<int>(type: "INTEGER", nullable: false),
-                    Preco = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Preco = table.Column<decimal>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PacoteTuristicos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CidadeDestinoPacoteTuristico",
+                columns: table => new
+                {
+                    DestinosId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PacotesId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CidadeDestinoPacoteTuristico", x => new { x.DestinosId, x.PacotesId });
+                    table.ForeignKey(
+                        name: "FK_CidadeDestinoPacoteTuristico_CidadeDestinos_DestinosId",
+                        column: x => x.DestinosId,
+                        principalTable: "CidadeDestinos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CidadeDestinoPacoteTuristico_PacoteTuristicos_PacotesId",
+                        column: x => x.PacotesId,
+                        principalTable: "PacoteTuristicos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,9 +88,10 @@ namespace DR4AT.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DataReserva = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ClienteId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PacoteTuristicoId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DataReserva = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    PacoteTuristicoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,6 +111,11 @@ namespace DR4AT.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CidadeDestinoPacoteTuristico_PacotesId",
+                table: "CidadeDestinoPacoteTuristico",
+                column: "PacotesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservas_ClienteId",
                 table: "Reservas",
                 column: "ClienteId");
@@ -96,10 +130,13 @@ namespace DR4AT.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CidadeDestinos");
+                name: "CidadeDestinoPacoteTuristico");
 
             migrationBuilder.DropTable(
                 name: "Reservas");
+
+            migrationBuilder.DropTable(
+                name: "CidadeDestinos");
 
             migrationBuilder.DropTable(
                 name: "Clientes");

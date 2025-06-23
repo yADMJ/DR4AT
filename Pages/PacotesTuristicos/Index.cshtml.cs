@@ -14,20 +14,21 @@ namespace DR4AT.Pages.PacotesTuristicos
     [Authorize]
     public class IndexModel : PageModel
     {
-        private readonly TurismoApp.Data.TurismoAppContext _context;
+        private readonly TurismoAppContext _context;
 
-        public IndexModel(TurismoApp.Data.TurismoAppContext context)
+        public IndexModel(TurismoAppContext context)
         {
             _context = context;
         }
 
-        public IList<PacoteTuristico> PacoteTuristico { get;set; } = default!;
+        public IList<PacoteTuristico> PacoteTuristico { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
             PacoteTuristico = await _context.PacoteTuristicos
-            .Where(p => !p.IsDeleted)
-            .ToListAsync();
+                .Include(p => p.Destinos) 
+                .Where(p => !p.IsDeleted)
+                .ToListAsync();
         }
     }
 }

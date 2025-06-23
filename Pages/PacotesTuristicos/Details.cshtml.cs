@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +9,9 @@ namespace DR4AT.Pages.PacotesTuristicos
 {
     public class DetailsModel : PageModel
     {
-        private readonly TurismoApp.Data.TurismoAppContext _context;
+        private readonly TurismoAppContext _context;
 
-        public DetailsModel(TurismoApp.Data.TurismoAppContext context)
+        public DetailsModel(TurismoAppContext context)
         {
             _context = context;
         }
@@ -24,19 +21,15 @@ namespace DR4AT.Pages.PacotesTuristicos
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var pacoteturistico = await _context.PacoteTuristicos.FirstOrDefaultAsync(m => m.Id == id);
-            if (pacoteturistico == null)
-            {
+            PacoteTuristico = await _context.PacoteTuristicos
+                .Include(p => p.Destinos) // importante incluir os destinos
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (PacoteTuristico == null)
                 return NotFound();
-            }
-            else
-            {
-                PacoteTuristico = pacoteturistico;
-            }
+
             return Page();
         }
     }

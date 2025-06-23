@@ -35,6 +35,11 @@
                 <span asp-validation-for="PacoteTuristico.Preco" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="SelectedCidadeIds">Cidades de Destino</label>
+                <select asp-for="SelectedCidadeIds" asp-items="Model.CidadesDestinos" multiple class="form-control"></select>
+                <span asp-validation-for="SelectedCidadeIds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TurismoApp.Models
 {
@@ -9,9 +10,10 @@ namespace TurismoApp.Models
         [Required, MinLength(3)]
         public string Nome { get; set; }
 
+        public string? Pais { get; set; }
+
         public bool IsDeleted { get; set; } = false;
 
         public ICollection<PacoteTuristico> Pacotes { get; set; } = new List<PacoteTuristico>();
     }
-
 }

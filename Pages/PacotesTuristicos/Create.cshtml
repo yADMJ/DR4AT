@@ -34,6 +34,12 @@
                 <span asp-validation-for="PacoteTuristico.Preco" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="SelectedCidadeIds">Selecione as Cidades Destinos</label>
+                <select asp-for="SelectedCidadeIds" asp-items="Model.CidadesDestinos" multiple class="form-control"></select>
+                <span asp-validation-for="SelectedCidadeIds" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -45,5 +51,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

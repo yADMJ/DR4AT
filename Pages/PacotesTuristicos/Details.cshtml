@@ -35,6 +35,30 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PacoteTuristico.Preco)
         </dd>
+        <dt class="col-sm-2">
+            Destinos
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.PacoteTuristico.Destinos != null && Model.PacoteTuristico.Destinos.Any())
+            {
+                <ul class="mb-0">
+                    @foreach (var destino in Model.PacoteTuristico.Destinos)
+                    {
+                        <li>
+                            @destino.Nome
+                            @if (!string.IsNullOrEmpty(destino.Pais))
+                            {
+                                <text> - @destino.Pais</text>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span>Sem destinos cadastrados.</span>
+            }
+        </dd>
     </dl>
 </div>
 <div>

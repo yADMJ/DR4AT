@@ -11,14 +11,29 @@ using TurismoApp.Data;
 namespace DR4AT.Migrations
 {
     [DbContext(typeof(TurismoAppContext))]
-    [Migration("20250622215729_AddIsDeletedToEntities")]
-    partial class AddIsDeletedToEntities
+    [Migration("20250623004356_CreateManyToManyCidadeDestinoPacote")]
+    partial class CreateManyToManyCidadeDestinoPacote
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
+
+            modelBuilder.Entity("CidadeDestinoPacoteTuristico", b =>
+                {
+                    b.Property<int>("DestinosId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PacotesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DestinosId", "PacotesId");
+
+                    b.HasIndex("PacotesId");
+
+                    b.ToTable("CidadeDestinoPacoteTuristico");
+                });
 
             modelBuilder.Entity("TurismoApp.Models.CidadeDestino", b =>
                 {
@@ -31,6 +46,9 @@ namespace DR4AT.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Pais")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -69,9 +87,6 @@ namespace DR4AT.Migrations
                     b.Property<int>("CapacidadeMaxima")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CidadeDestinoId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("TEXT");
 
@@ -86,8 +101,6 @@ namespace DR4AT.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CidadeDestinoId");
 
                     b.ToTable("PacoteTuristicos");
                 });
@@ -119,11 +132,19 @@ namespace DR4AT.Migrations
                     b.ToTable("Reservas");
                 });
 
-            modelBuilder.Entity("TurismoApp.Models.PacoteTuristico", b =>
+            modelBuilder.Entity("CidadeDestinoPacoteTuristico", b =>
                 {
                     b.HasOne("TurismoApp.Models.CidadeDestino", null)
-                        .WithMany("Pacotes")
-                        .HasForeignKey("CidadeDestinoId");
+                        .WithMany()
+                        .HasForeignKey("DestinosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TurismoApp.Models.PacoteTuristico", null)
+                        .WithMany()
+                        .HasForeignKey("PacotesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TurismoApp.Models.Reserva", b =>
@@ -143,11 +164,6 @@ namespace DR4AT.Migrations
                     b.Navigation("Cliente");
 
                     b.Navigation("PacoteTuristico");
-                });
-
-            modelBuilder.Entity("TurismoApp.Models.CidadeDestino", b =>
-                {
-                    b.Navigation("Pacotes");
                 });
 
             modelBuilder.Entity("TurismoApp.Models.Cliente", b =>

@@ -6,6 +6,7 @@ namespace TurismoApp.Models
     {
         public int Id { get; set; }
 
+
         [Required, MinLength(3)]
         public string Nome { get; set; }
 

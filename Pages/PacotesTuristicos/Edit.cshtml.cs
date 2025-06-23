@@ -13,9 +13,9 @@ namespace DR4AT.Pages.PacotesTuristicos
 {
     public class EditModel : PageModel
     {
-        private readonly TurismoApp.Data.TurismoAppContext _context;
+        private readonly TurismoAppContext _context;
 
-        public EditModel(TurismoApp.Data.TurismoAppContext context)
+        public EditModel(TurismoAppContext context)
         {
             _context = context;
         }
@@ -23,55 +23,86 @@ namespace DR4AT.Pages.PacotesTuristicos
         [BindProperty]
         public PacoteTuristico PacoteTuristico { get; set; } = default!;
 
+        [BindProperty]
+        public List<int> SelectedCidadeIds { get; set; } = new();
+
+        public List<SelectListItem> CidadesDestinos { get; set; } = new();
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var pacoteturistico =  await _context.PacoteTuristicos.FirstOrDefaultAsync(m => m.Id == id);
-            if (pacoteturistico == null)
-            {
+            PacoteTuristico = await _context.PacoteTuristicos
+                .Include(p => p.Destinos)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (PacoteTuristico == null)
                 return NotFound();
-            }
-            PacoteTuristico = pacoteturistico;
+
+       
+            SelectedCidadeIds = PacoteTuristico.Destinos.Select(d => d.Id).ToList();
+
+            CidadesDestinos = await _context.CidadeDestinos
+                .Where(c => !c.IsDeleted)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = string.IsNullOrEmpty(c.Pais) ? c.Nome : $"{c.Nome} - {c.Pais}"
+                }).ToListAsync();
+
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var pacoteToUpdate = await _context.PacoteTuristicos
+                .Include(p => p.Destinos)
+                .FirstOrDefaultAsync(p => p.Id == PacoteTuristico.Id);
+
+            if (pacoteToUpdate == null)
+                return NotFound();
+
             if (!ModelState.IsValid)
             {
+                await CarregarCidades();
                 return Page();
             }
 
-            _context.Attach(PacoteTuristico).State = EntityState.Modified;
+         
+            pacoteToUpdate.Titulo = PacoteTuristico.Titulo;
+            pacoteToUpdate.DataInicio = PacoteTuristico.DataInicio;
+            pacoteToUpdate.CapacidadeMaxima = PacoteTuristico.CapacidadeMaxima;
+            pacoteToUpdate.Preco = PacoteTuristico.Preco;
 
-            try
+      
+            pacoteToUpdate.Destinos.Clear();
+
+            if (SelectedCidadeIds != null && SelectedCidadeIds.Any())
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PacoteTuristicoExists(PacoteTuristico.Id))
+                var cidades = await _context.CidadeDestinos
+                    .Where(c => SelectedCidadeIds.Contains(c.Id))
+                    .ToListAsync();
+
+                foreach (var cidade in cidades)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    pacoteToUpdate.Destinos.Add(cidade);
                 }
             }
 
+            await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }
 
-        private bool PacoteTuristicoExists(int id)
+        private async Task CarregarCidades()
         {
-            return _context.PacoteTuristicos.Any(e => e.Id == id);
+            CidadesDestinos = await _context.CidadeDestinos
+                .Where(c => !c.IsDeleted)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = string.IsNullOrEmpty(c.Pais) ? c.Nome : $"{c.Nome} - {c.Pais}"
+                }).ToListAsync();
         }
     }
 }

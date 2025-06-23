@@ -18,6 +18,7 @@
             <th>@Html.DisplayNameFor(model => model.PacoteTuristico[0].DataInicio)</th>
             <th>@Html.DisplayNameFor(model => model.PacoteTuristico[0].CapacidadeMaxima)</th>
             <th>@Html.DisplayNameFor(model => model.PacoteTuristico[0].Preco)</th>
+            <th>Destinos</th>
             <th></th>
         </tr>
     </thead>
@@ -30,6 +31,21 @@
                 <td>@Html.DisplayFor(modelItem => item.CapacidadeMaxima)</td>
                 <td>@Html.DisplayFor(modelItem => item.Preco)</td>
                 <td>
+                    @if (item.Destinos != null && item.Destinos.Any())
+                    {
+                        <ul class="mb-0">
+                            @foreach (var destino in item.Destinos)
+                            {
+                                <li>@destino.Nome</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+                <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |
                     <a asp-page="./Details" asp-route-id="@item.Id">Detalhes</a> |
                     <a asp-page="./Delete" asp-route-id="@item.Id">Excluir</a>
@@ -38,3 +54,4 @@
         }
     </tbody>
 </table>
+
