@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TurismoApp.Data;
 using TurismoApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DR4AT.Pages.Reservas
 {
@@ -48,10 +49,47 @@ namespace DR4AT.Pages.Reservas
                 return Page();
             }
 
+            var pacote = await _context.PacoteTuristicos.FindAsync(Reserva.PacoteTuristicoId);
+
+            if (pacote == null || pacote.IsDeleted)
+            {
+                ModelState.AddModelError(string.Empty, "Pacote turístico inválido.");
+                LoadSelectLists();
+                return Page();
+            }
+
+            var reservasExistentes = await _context.Reservas
+                .CountAsync(r =>
+                    r.PacoteTuristicoId == Reserva.PacoteTuristicoId &&
+                    !r.IsDeleted);
+
+            if (reservasExistentes >= pacote.CapacidadeMaxima)
+            {
+                ModelState.AddModelError(string.Empty, "Não é possível realizar a reserva. Capacidade máxima atingida.");
+                LoadSelectLists();
+                return Page();
+            }
+
+            bool clienteJaReservouNaData = await _context.Reservas
+                .AnyAsync(r =>
+                    r.ClienteId == Reserva.ClienteId &&
+                    r.DataReserva.Date == Reserva.DataReserva.Date &&
+                    !r.IsDeleted);
+
+            if (clienteJaReservouNaData)
+            {
+                ModelState.AddModelError(string.Empty, "Este cliente já possui uma reserva para esta data.");
+                LoadSelectLists();
+                return Page();
+            }
+
             _context.Reservas.Add(Reserva);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
+
+
+
     }
 }

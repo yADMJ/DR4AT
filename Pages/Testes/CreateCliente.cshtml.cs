@@ -21,10 +21,6 @@ namespace TurismoApp.Pages.Clientes
                 return Page();
             }
 
-            // Aqui você pode salvar no banco com EF Core
-            // dbContext.Clientes.Add(Cliente);
-            // dbContext.SaveChanges();
-
 
             TempData["SuccessMessage"] = "Cliente cadastrado com sucesso!";
             return RedirectToPage("/Index");
